@@ -326,7 +326,12 @@ define([
 
           evt.preventDefault();
         } else if (key === KEYS.ENTER) {
-          self.trigger('results:select', {});
+          
+          if (self.options.get('unselectByEnter')) {
+            self.trigger('results:toggle', {});
+          } else {
+            self.trigger('results:select', {});
+          }
 
           evt.preventDefault();
         } else if ((key === KEYS.SPACE && evt.ctrlKey)) {

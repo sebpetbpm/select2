@@ -68,6 +68,8 @@ define([
     });
 
     this.$selection.on('keydown', '.select2-search--inline', function (evt) {
+      evt.stopPropagation();
+
       self.trigger('keypress', evt);
 
       self._keyUpPrevented = evt.isDefaultPrevented();

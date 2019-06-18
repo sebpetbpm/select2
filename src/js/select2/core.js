@@ -326,7 +326,7 @@ define([
 
           evt.preventDefault();
         } else if (key === KEYS.ENTER) {
-          
+
           if (self.options.get('unselectByEnter')) {
             self.trigger('results:toggle', {});
           } else {
@@ -349,7 +349,7 @@ define([
         }
       } else {
         if (key === KEYS.ENTER || key === KEYS.SPACE ||
-            (key === KEYS.DOWN && evt.altKey)) {
+            (key === KEYS.DOWN && evt.altKey) || key === KEYS.DOWN) {
           self.open();
 
           evt.preventDefault();

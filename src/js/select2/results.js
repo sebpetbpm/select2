@@ -343,8 +343,8 @@ define([
 
       var currentIndex = $options.index($highlighted);
 
-      // If we are already at te top, don't move further
-      if (currentIndex === 0) {
+      // If we are already at te top, don't move further. If no options are selected, currentIndex will be -1
+      if (currentIndex <= 0) {
         return;
       }
 

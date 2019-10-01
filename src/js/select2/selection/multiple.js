@@ -89,6 +89,11 @@ define([
     for (var d = 0; d < data.length; d++) {
       var selection = data[d];
 
+      // avoid empty items (SP)
+      if (data[d].id === "") {
+        continue;
+      }
+
       var $selection = this.selectionContainer();
       var formatted = this.display(selection, $selection);
 

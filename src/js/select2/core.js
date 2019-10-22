@@ -335,7 +335,7 @@ define([
           evt.preventDefault();
         } else if (key === KEYS.TAB) {
           self.trigger('results:select', {});
-          
+
           self.close();
         } else if (key === KEYS.ENTER) {
 
@@ -346,7 +346,7 @@ define([
           }
 
           evt.preventDefault();
-        } else if ((key === KEYS.SPACE && evt.ctrlKey)) {
+        } else if ((key === KEYS.SPACE && evt.shiftKey)) {
           self.trigger('results:toggle', {});
 
           evt.preventDefault();

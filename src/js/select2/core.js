@@ -346,10 +346,6 @@ define([
           }
 
           evt.preventDefault();
-        } else if ((key === KEYS.SPACE && evt.shiftKey)) {
-          self.trigger('results:toggle', {});
-
-          evt.preventDefault();
         } else if (key === KEYS.UP) {
           self.trigger('results:previous', {});
 

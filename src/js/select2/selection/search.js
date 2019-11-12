@@ -147,7 +147,7 @@ define([
         var key = evt.which;
 
         // We can freely ignore events from modifier keys
-        if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT) {
+        if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT || KEYS.LEFT || KEYS.RIGHT) {
           return;
         }
 

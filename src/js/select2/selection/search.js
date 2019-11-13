@@ -208,12 +208,11 @@ define([
   };
 
   Search.prototype.searchRemoveChoice = function (decorated, item) {
-    this.trigger('unselect', {
-      data: item
-    });
-
-    this.$search.val(item.text);
-    this.handleSearch();
+    if (this.options.get('selectType') !== 'multiple' && this.$element.data().open) {
+      this.trigger('unselect', {
+        data: item
+      });
+    }
   };
 
   Search.prototype.resizeSearch = function () {

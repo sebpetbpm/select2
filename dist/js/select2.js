@@ -1760,6 +1760,11 @@ S2.define('select2/selection/multiple',[
     for (var d = 0; d < data.length; d++) {
       var selection = data[d];
 
+      // avoid empty items (SP)
+      if (data[d].id === "") {
+        continue;
+      }
+
       var $selection = this.selectionContainer();
       var formatted = this.display(selection, $selection);
 
@@ -2097,7 +2102,7 @@ S2.define('select2/selection/search',[
         var key = evt.which;
 
         // We can freely ignore events from modifier keys
-        if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT) {
+        if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT || key == KEYS.LEFT || key == KEYS.RIGHT || key == KEYS.ENTER) {
           return;
         }
 
@@ -2158,12 +2163,11 @@ S2.define('select2/selection/search',[
   };
 
   Search.prototype.searchRemoveChoice = function (decorated, item) {
-    this.trigger('unselect', {
-      data: item
-    });
-
-    this.$search.val(item.text);
-    this.handleSearch();
+    if (this.options.get('selectType') !== 'multiple' && this.$element.data().open) {
+      this.trigger('unselect', {
+        data: item
+      });
+    }
   };
 
   Search.prototype.resizeSearch = function () {
@@ -5061,7 +5065,8 @@ S2.define('select2/defaults',[
       maximumSelectionLength: 0,
       minimumResultsForSearch: 0,
       selectOnClose: false,
-      scrollAfterSelect: false,
+      scrollAfterSelect: true,
+      unselectByEnter: false,
       sorter: function (data) {
         return data;
       },
@@ -5663,17 +5668,21 @@ S2.define('select2/core',[
       var key = evt.which;
 
       if (self.isOpen()) {
-        if (key === KEYS.ESC || key === KEYS.TAB ||
-            (key === KEYS.UP && evt.altKey)) {
+        if (key === KEYS.ESC || (key === KEYS.UP && evt.altKey)) {
           self.close();
 
           evt.preventDefault();
-        } else if (key === KEYS.ENTER) {
+        } else if (key === KEYS.TAB) {
           self.trigger('results:select', {});
 
-          evt.preventDefault();
-        } else if ((key === KEYS.SPACE && evt.ctrlKey)) {
-          self.trigger('results:toggle', {});
+          self.close();
+        } else if (key === KEYS.ENTER) {
+
+          if (self.options.get('unselectByEnter')) {
+            self.trigger('results:toggle', {});
+          } else {
+            self.trigger('results:select', {});
+          }
 
           evt.preventDefault();
         } else if (key === KEYS.UP) {
@@ -5687,7 +5696,7 @@ S2.define('select2/core',[
         }
       } else {
         if (key === KEYS.ENTER || key === KEYS.SPACE ||
-            (key === KEYS.DOWN && evt.altKey)) {
+            (key === KEYS.DOWN && evt.altKey) || key === KEYS.DOWN) {
           self.open();
 
           evt.preventDefault();
